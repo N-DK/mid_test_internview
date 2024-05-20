@@ -17,6 +17,15 @@ function App() {
     return `${hours} giờ ${minutes} phút ${remainingSeconds} giây`;
   }
 
+  function convertSecondsToMMSS(seconds) {
+    let minutes = Math.floor(seconds / 60);
+    let remainingSeconds = seconds % 60;
+    if (remainingSeconds < 10) {
+      remainingSeconds = "0" + remainingSeconds; // Thêm chữ số 0 vào phần giây nếu nhỏ hơn 10
+    }
+    return minutes + ":" + remainingSeconds;
+  }
+
   useEffect(() => {
     const fetchAPI = async () => {
       const response = await axios.get(
@@ -43,7 +52,10 @@ function App() {
               <p className="mb-4 fs-2 fw-800">{data?.title}</p>
               <div>
                 <p>Danh sách phát • Solfive</p>
-                <p>{data?.song?.total} bài hát • {convertSeconds(data?.song?.totalDuration)}</p>
+                <p>
+                  {data?.song?.total} bài hát •{" "}
+                  {convertSeconds(data?.song?.totalDuration)}
+                </p>
                 <p>{data?.sortDescription}</p>
               </div>
             </div>
@@ -75,7 +87,9 @@ function App() {
                         <span key={index}>{artist.name}, </span>
                       ))}
                     </p>
-                    <p className="mb-0">04:03</p>
+                    <p className="mb-0">
+                      {convertSecondsToMMSS(item.duration)}
+                    </p>
                   </div>
                 </div>
               </div>
